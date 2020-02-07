@@ -136,6 +136,7 @@ function output_table(){
     for(index in cvre_data.playerList){
         var player = cvre_data.playerList[index];
         var row = table_body.insertRow();
+        row.className = "hoverable";
         row.insertCell().innerHTML = player.rank;
         row.insertCell().innerHTML = player.username;
         row.insertCell().innerHTML = player.team;
@@ -148,6 +149,7 @@ function output_table(){
     for(index in cvre_data.playerList){
         var player = cvre_data.playerList[index];
         var row = table_body.insertRow();
+        row.className = "hoverable";
         row.insertCell().innerHTML = player.rank;
         row.insertCell().innerHTML = player.username;
         row.insertCell().innerHTML = player.totalScore;
