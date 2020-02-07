@@ -1,0 +1,169 @@
+<html>
+    <head>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="css/materialize.min.css" rel="stylesheet">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="js/main.js"></script>
+    </head>
+    <body class="grey">
+        <div class="navbar-fixed">
+            <nav>
+                <div class="row nav-wrapper grey darken-4">
+                    <div class="col s12">
+                        <a href="#" class="brand-logo">CVRE Qualifiers</a>
+                        <ul id="nav-mobile" class="right hide-on-med-and-down">
+                            <li><a href="#!">More Stats</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <h1></h1>
+        <div class="container" style="user-select: none;">
+            <div class="row grey lighten-3">
+                <div class="col s12 z-depth-2 hide-on-med-and-down">
+                    <table id="large_scoreboard" class="highlight">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <div class="valign-wrapper" onclick="set_sort_method('rank')">
+                                        Rank
+                                        <i class="material-icons left sort_arrow rank_down arrow_down" hidden>keyboard_arrow_down</i>
+                                    <i class="material-icons left sort_arrow rank_up arrow_up" style="visibility: hidden;">keyboard_arrow_up</i>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="valign-wrapper" onclick="set_sort_method('username')">
+                                        Name
+                                        <i class="material-icons left sort_arrow username_down arrow_down" hidden>keyboard_arrow_down</i>
+                                        <i class="material-icons left sort_arrow username_up arrow_up" style="visibility: hidden;">keyboard_arrow_up</i>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="valign-wrapper" onclick="set_sort_method('team')">
+                                        Team
+                                        <i class="material-icons left sort_arrow team_down arrow_down" hidden>keyboard_arrow_down</i>
+                                        <i class="material-icons left sort_arrow team_up arrow_up" style="visibility: hidden;">keyboard_arrow_up</i>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="valign-wrapper" onclick="set_sort_method('totalScore')">
+                                        Score
+                                        <i class="material-icons left sort_arrow totalScore_down arrow_down" hidden>keyboard_arrow_down</i>
+                                        <i class="material-icons left sort_arrow totalScore_up arrow_up" style="visibility: hidden;">keyboard_arrow_up</i>
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col s12 z-depth-2 hide-on-large-only">
+                    <table id="small_scoreboard" class="highlight">
+                        <thead style="user-select: none;">
+                            <tr>
+                                <th>
+                                    <div class="valign-wrapper" onclick="set_sort_method('rank')">
+                                        Rank
+                                        <i class="material-icons left sort_arrow rank_down arrow_down" hidden>keyboard_arrow_down</i>
+                                        <i class="material-icons left sort_arrow rank_up arrow_up" style="visibility: hidden;">keyboard_arrow_up</i>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="valign-wrapper" onclick="set_sort_method('username')">
+                                        Name
+                                        <i class="material-icons left sort_arrow username_down arrow_down" hidden>keyboard_arrow_down</i>
+                                        <i class="material-icons left sort_arrow username_up arrow_up" style="visibility: hidden;">keyboard_arrow_up</i>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="valign-wrapper" onclick="set_sort_method('totalScore')">
+                                        Score
+                                        <i class="material-icons left sort_arrow totalScore_down arrow_down" hidden>keyboard_arrow_down</i>
+                                        <i class="material-icons left sort_arrow totalScore_up arrow_up" style="visibility: hidden;">keyboard_arrow_up</i>
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div id="player_info" class="modal bottom-sheet">
+            <div class="modal-content grey">
+                <div class="container">
+                    <div class="card grey lighten-3">
+                        <div class="card-content">
+                            <h4 class="truncate" id="player_info_username"></h4>
+                            <p id="player_info_bio">
+                            </p>
+                        </div>
+                    </div>
+                    <div class="card grey lighten-3 hide-on-small-only">
+                        <div class="card-content">
+                            <table id="song_table" class="striped">
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Score</th>
+                                        <th>Acc.</th>
+                                        <th>Avg. Cut</th>
+                                        <th>Misses</th>
+                                        <th>Uploads</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+            
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div id="mobile_score_cards" class="hide-on-med-and-up">
+                        
+                        <div class="card grey lighten-3">
+                            <div class="card-content">
+                                <span class="card-title">Song Name</span>
+                                <p>
+                                    Score: 341234<br>
+                                    Accuracy: asd9f<br>
+                                    Avg. Cut: asdf<br>
+                                    Misses: dsf<br>
+                                    Plays: as09f
+                                </p>
+                            </div>
+                        </div>
+                        <div class="card grey lighten-3">
+                            <div class="card-content">
+                                <span class="card-title">Song Name</span>
+                                <p>
+                                    Score: 341234<br>
+                                    Accuracy: asd9f<br>
+                                    Avg. Cut: asdf<br>
+                                    Misses: dsf<br>
+                                    Plays: as09f
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="js/materialize.min.js"></script>
+        <div hidden id="score_card_template" class="card grey lighten-3">
+            <div class="card-content">
+                <span class="card-title">Song Name</span>
+                <p>
+                    Score: 341234<br>
+                    Accuracy: asd9f<br>
+                    Avg. Cut: asdf<br>
+                    Misses: dsf<br>
+                    Plays: as09f
+                </p>
+            </div>
+        </div>
+    </body>
+</html>
