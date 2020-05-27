@@ -1,0 +1,112 @@
+<html>
+    <head>
+        <meta charset="UTF-8"></meta>
+        <title>Puplip.xyz</title>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="css/materialize.min.css" rel="stylesheet">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script>
+            $(document).ready(() => {
+                M.AutoInit();
+            });
+        </script>
+        <script>
+            var spinning = false;
+            var toking = false;
+            var spin_interval = null;
+            var spice_interval = null;
+            var spice_time = 0;
+            function spin_tick(){
+                spice_time = Math.random()*7+3;
+                document.getElementById("spice_number").innerHTML = spice_time.toFixed(2);
+            }
+            function spin_toggle(){
+                if(toking){
+                    toking = false;
+                    clearInterval(spice_interval);
+                }
+                if(spinning){
+                    clearInterval(spin_interval);
+                    spinning = false;
+                    document.getElementById("spice_button").innerHTML = "Start";
+                } else {
+                    spinning = true;
+                    spin_interval = setInterval(spin_tick,20);
+                    document.getElementById("spice_button").innerHTML = "Stop";
+                }
+            }
+            function spice_tick(){
+                if(spice_time > 0.05){
+                    spice_time -= 0.05;
+                    document.getElementById("spice_number").innerHTML = spice_time.toFixed(2);
+                } else {
+                    spice_time = 0;
+                    document.getElementById("spice_number").innerHTML = spice_time.toFixed(2);
+                    clearInterval(spice_interval);
+                    toking = false;
+                }
+            }
+            function spice_toggle(){
+                if(!toking){
+                    toking = true;
+                    if(spinning){
+                        spin_toggle();
+                    }
+                    spice_interval = setInterval(spice_tick,50);
+                }
+            }
+        </script>
+        <style>
+        </style>
+    </head>
+    <body class="grey">
+        <div class="navbar-fixed">
+            <nav>
+                <div class="row nav-wrapper grey darken-4">
+                    <div class="col s12">
+                        <a href="index" class="brand-logo">Puplip.xyz</a>
+                        <a href="#" data-target="mobile-sidenav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                        <ul id="nav-mobile" class="right hide-on-med-and-down">
+                            <li class = "active" ><a href="index">Home</a></li>
+                            <li><a href="ez_spice">Spice</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <ul class="sidenav row grey darken-1" id="mobile-sidenav">
+            <li>
+                <div class="col s12">
+                    <div class="card grey darken-4">
+                        <div class="card-content">
+                            <a class="card-title white-text" href="index">Home</a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="col s12">
+                    <div class="card grey darken-4">
+                        <div class="card-content">
+                            <a class="card-title white-text" href="ez_spice">Spice</a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <h1></h1>
+        <div class="container" style="user-select: none;">
+            <div class="card grey lighten-3">
+                <div class="card-content">
+                    <div class="card-title"id="spice_number">42</div>
+                </div>
+                <div class="card-action">
+                    <a id="spice_button" onclick="spin_toggle()">Start</a>
+                    <a onclick="spice_toggle()">Spice</a>
+                </div>
+            </div>
+        </div>
+        <script src="js/materialize.min.js"></script>
+    </body>
+</html>
