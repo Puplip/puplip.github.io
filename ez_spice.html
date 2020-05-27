@@ -12,29 +12,36 @@
             });
         </script>
         <script>
-            var spinning = false;
-            var toking = false;
-            var spin_interval = null;
-            var spice_interval = null;
+
+            function sleep(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            }
+
+            function clearIntervals(intervals){
+                intervals.map(clearInterval);
+                intervals.splice(0,intervals.length);
+            }
+            var spin_interval = [];
+            var spice_interval = [];
             var spice_time = 0;
             function spin_tick(){
                 spice_time = Math.random()*7+3;
                 document.getElementById("spice_number").innerHTML = spice_time.toFixed(2);
             }
             function spin_toggle(){
-                if(toking){
-                    toking = false;
-                    clearInterval(spice_interval);
-                }
-                if(spinning){
-                    clearInterval(spin_interval);
-                    spinning = false;
+                    
+                clearIntervals(spice_interval);
+
+                if(spin_interval.length){
+
+                    clearIntervals(spin_interval);
+
                     document.getElementById("spice_button").innerHTML = "Start";
                 } else {
-                    spinning = true;
-                    spin_interval = setInterval(spin_tick,20);
+                    spin_interval.push(setInterval(spin_tick,20));
                     document.getElementById("spice_button").innerHTML = "Stop";
                 }
+
             }
             function spice_tick(){
                 if(spice_time > 0.05){
@@ -43,17 +50,15 @@
                 } else {
                     spice_time = 0;
                     document.getElementById("spice_number").innerHTML = spice_time.toFixed(2);
-                    clearInterval(spice_interval);
-                    toking = false;
+                    clearIntervals(spice_interval);
                 }
             }
             function spice_toggle(){
-                if(!toking){
-                    toking = true;
-                    if(spinning){
-                        spin_toggle();
+                if(!spice_interval.length){
+                    if(spin_interval.length){
+                        clearIntervals(spin_interval);
                     }
-                    spice_interval = setInterval(spice_tick,50);
+                    spice_interval.push(setInterval(spice_tick,50));
                 }
             }
         </script>
@@ -101,9 +106,9 @@
                 <div class="card-content">
                     <div class="card-title"id="spice_number">42</div>
                 </div>
-                <div class="card-action">
-                    <a id="spice_button" onclick="spin_toggle()">Start</a>
-                    <a onclick="spice_toggle()">Spice</a>
+                <div class="card-content">
+                    <a class="waves-effect waves-light btn-flat grey darken-2" id="spice_button" onclick="spin_toggle()">Start</a>
+                    <a class="waves-effect waves-light btn-flat orange" onclick="spice_toggle()">Spice</a>
                 </div>
             </div>
         </div>
