@@ -13,10 +13,6 @@
         </script>
         <script>
 
-            function sleep(ms) {
-                return new Promise(resolve => setTimeout(resolve, ms));
-            }
-
             function clearIntervals(intervals){
                 intervals.map(clearInterval);
                 intervals.splice(0,intervals.length);
@@ -35,8 +31,9 @@
                 if(spin_interval.length){
 
                     clearIntervals(spin_interval);
-
+                    $("#prog_color").css("width",(spice_time * 10).toFixed(2)+"%");
                     document.getElementById("spice_button").innerHTML = "Start";
+
                 } else {
                     spin_interval.push(setInterval(spin_tick,20));
                     document.getElementById("spice_button").innerHTML = "Stop";
@@ -47,10 +44,12 @@
                 if(spice_time > 0.05){
                     spice_time -= 0.05;
                     document.getElementById("spice_number").innerHTML = spice_time.toFixed(2);
+                    $("#prog_color").css("width",(spice_time * 10).toFixed(2)+"%");
                 } else {
                     spice_time = 0;
                     document.getElementById("spice_number").innerHTML = spice_time.toFixed(2);
                     clearIntervals(spice_interval);
+                    $("#prog_color").css("width","0%");
                 }
             }
             function spice_toggle(){
@@ -61,8 +60,15 @@
                     spice_interval.push(setInterval(spice_tick,50));
                 }
             }
+
         </script>
         <style>
+            .timer-number{
+                padding: 20px;
+                width:fit-content;
+                text-align: center;
+                font-size: xx-large;
+            }
         </style>
     </head>
     <body class="grey">
@@ -103,13 +109,15 @@
         <h1></h1>
         <div class="container" style="user-select: none;">
             <div class="card grey lighten-3">
-                <div class="card-content">
-                    <div class="card-title"id="spice_number">42</div>
-                </div>
+                <span>
+                    <div class="grey timer-number" id="spice_number">9.99</div>
+                </span>
+                <div id="prog_color" class="orange" style="height: 40px; width: 100%"></div>
                 <div class="card-content">
                     <a class="waves-effect waves-light btn-flat grey darken-2" id="spice_button" onclick="spin_toggle()">Start</a>
                     <a class="waves-effect waves-light btn-flat orange" onclick="spice_toggle()">Spice</a>
                 </div>
+                
             </div>
         </div>
         <script src="js/materialize.min.js"></script>
