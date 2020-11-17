@@ -2,7 +2,7 @@ var toke_min = 4.00;
 var toke_max = 11.00;
 
 var toke_bonus_chance = 0.75;
-var toke_slow_friction = 0.995;
+var toke_slow_friction = 0.9925;
 
 
 var toke_diff = toke_max - toke_min;
