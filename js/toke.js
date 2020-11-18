@@ -1,7 +1,7 @@
 var toke_min = 4.00;
 var toke_max = 11.00;
 
-var toke_bonus_chance = 0.66;
+var toke_bonus_chance = 0.69;
 var toke_slow_friction = 0.9925;
 
 
