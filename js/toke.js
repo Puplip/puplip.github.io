@@ -16,10 +16,17 @@ var stateEnum = {
     waitSpin: 0, 
     spin: 1,
     waitToke: 2,
-    toke: 3
+    countDown: 3,
+    toke: 4
 };
 
 var state = stateEnum.waitToke;
+var count_down_scale = 1.0;
+var count_down_alpha = 0;
+var count_down_count = 0;
+var count_down_number = 0;
+
+var p = true;
 
 function fix2(x){
     return x.toFixed(2);
@@ -27,9 +34,15 @@ function fix2(x){
 
 function frame(){
 
+    spin();
+
     var center = Math.round(toke_number);
     var font_size = Math.round(Math.sqrt(window.innerWidth * window.innerWidth + window.innerHeight * window.innerHeight) * 0.0889733361);
     
+    if(p){
+        p = false;
+        console.log(font_size);
+    }
 
     var toke_box = document.getElementById("toke-box");
     toke_box.setAttribute("x",Math.round(window.innerWidth-font_size*3.673469388));
@@ -40,6 +53,14 @@ function frame(){
     beeg_number.setAttribute("x",Math.round(window.innerWidth-font_size*3.469387755));
     beeg_number.setAttribute("y",Math.round(window.innerHeight/2+font_size*0.6530612245));
     beeg_number.setAttribute("font-size",Math.round(font_size*1.306122449));
+
+    var count_down = document.getElementById("count-down");
+    
+    count_down.setAttribute("y",Math.round(window.innerHeight/2+count_down_scale*font_size*1.868627451));
+    count_down.setAttribute("x",Math.round(window.innerWidth/2-count_down_scale*font_size*1.525490196));
+    count_down.setAttribute("font-size",Math.round(count_down_scale*font_size*5.490196078));
+    count_down.setAttribute("fill-opacity",count_down_alpha);
+    count_down.innerHTML = count_down_number;
 
     var cx = Math.round(window.innerWidth-font_size*3.673469388+window.innerHeight+font_size*0.6530612245);
     var cy = Math.round(window.innerHeight/2);
@@ -136,6 +157,36 @@ function spin(){
         } else {
             toke_speed *= toke_friction;
         }
+    } else if (state == stateEnum.countDown){
+        
+        count_down_number = Math.floor((count_down_count + 75) / 150);
+        var cd_mod = Math.abs(count_down_count % 150);
+
+        if(count_down_count <= -25){
+            count_down_alpha;
+            state = stateEnum.toke;
+            aim_assist = false;
+            count_down_alpha = 0;
+            return;
+        }
+        if (count_down_count < 0){
+            var cd_prog = cd_mod / 25;
+            count_down_alpha = 1-cd_prog;
+            count_down_scale = 0.75 + 0.25 * (1-cd_prog);
+        } else if(cd_mod > 125){
+            var cd_prog = (cd_mod - 125) / 25;
+            count_down_alpha = 1-Math.pow(1-cd_prog,5);
+            count_down_scale = 0.75 + 0.25 * cd_prog;
+        } else if(cd_mod < 50){
+            var cd_prog = cd_mod / 50;
+            count_down_alpha = Math.pow(1.0 - cd_prog,5);
+            count_down_scale = 1.0 + cd_prog * 3;
+        } else {
+            count_down_alpha = 0.0;
+        }
+
+        count_down_count--;
+
     } else if (state == stateEnum.toke){
         toke_number -= 0.005;
         if(toke_number <= -toke_bonus){
@@ -148,15 +199,30 @@ function spin(){
 
 var good_numbers = [
     0.69,
-    1.23,
-    3.14,
+    1.69,
+    2.69,
+    3.69,
     4.20,
+    6.69,
     6.66,
-    7.77,
+    7.69,
+    8.69,
     9.11,
-    10.00,
+    9.69,
     10.69,
-    10.99
+    11.11,
+    11.69,
+    12.34,
+    12.69,
+    13.69,
+    14.69,
+    15.69,
+    16.69,
+    17.69,
+    18.69,
+    19.69,
+    20.20,
+    20.69
 ];
 
 function aimAssist(){
@@ -188,7 +254,9 @@ var aim_assist = false;
 
 function doThing(){
     switch(state){
+        case stateEnum.countDown:
         case stateEnum.waitSpin:
+            count_down_alpha = 0;
         toke_speed = 0.5 + Math.random() / 2;
         toke_number = toke_min + Math.random() * (toke_diff - 1);
         toke_friction = 1;
@@ -211,8 +279,11 @@ function doThing(){
         }
         break;
         case stateEnum.waitToke:
-        state = stateEnum.toke;
-        aim_assist = false;
+        count_down_count = 525;
+        state = stateEnum.countDown;
+
+        // state = stateEnum.toke;
+        // aim_assist = false;
         break;
         case stateEnum.toke:
         toke_number = -toke_bonus;
@@ -224,4 +295,15 @@ function doThing(){
 
 
 var frame_int = setInterval(frame,5);
-var spin_int = setInterval(spin,5);
+
+function onKeyUp(e) {
+
+    console.log(e.keyCode);
+
+    if (e.keyCode == 32) {
+        
+        doThing();
+    }
+}
+
+document.addEventListener('keyup', onKeyUp, false);
