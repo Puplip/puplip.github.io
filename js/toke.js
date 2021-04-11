@@ -1,4 +1,4 @@
-var toke_min = 4.00;
+var toke_min = 6.00;
 var toke_max = 11.00;
 
 var toke_bonus_chance = 0.69;
@@ -33,6 +33,8 @@ function fix2(x){
 }
 
 function frame(){
+
+    handleInput();
 
     spin();
 
@@ -252,44 +254,52 @@ var clicks = 0;
 var next_aim_assist = false;
 var aim_assist = false;
 
+var inputFlag = false;
 function doThing(){
-    switch(state){
-        case stateEnum.countDown:
-        case stateEnum.waitSpin:
-            count_down_alpha = 0;
-        toke_speed = 0.5 + Math.random() / 2;
-        toke_number = toke_min + Math.random() * (toke_diff - 1);
-        toke_friction = 1;
-        state = stateEnum.spin;
-        clicks = 0;
-        break;
-        case stateEnum.spin:
-        if(!clicks){
-            if(next_aim_assist){
-                next_aim_assist = false;
-                aim_assist = true;
-                aimAssist();
-            } else {
-                toke_friction = toke_slow_friction;
-            }
-        }
-        clicks++;
-        if(clicks == 10){
-            next_aim_assist = true;
-        }
-        break;
-        case stateEnum.waitToke:
-        count_down_count = 525;
-        state = stateEnum.countDown;
+    inputFlag = true;
+}
 
-        // state = stateEnum.toke;
-        // aim_assist = false;
-        break;
-        case stateEnum.toke:
-        toke_number = -toke_bonus;
-        break;
-        default:
-        state = stateEnum.waitSpin;
+function handleInput(){
+    if(inputFlag){
+        switch(state){
+            case stateEnum.countDown:
+            case stateEnum.waitSpin:
+                count_down_alpha = 0;
+            toke_speed = 0.5 + Math.random() / 2;
+            toke_number = toke_min + Math.random() * (toke_diff - 1);
+            toke_friction = 1;
+            state = stateEnum.spin;
+            clicks = 0;
+            break;
+            case stateEnum.spin:
+            if(!clicks){
+                if(next_aim_assist){
+                    next_aim_assist = false;
+                    aim_assist = true;
+                    aimAssist();
+                } else {
+                    toke_friction = toke_slow_friction;
+                }
+            }
+            clicks++;
+            if(clicks == 10){
+                next_aim_assist = true;
+            }
+            break;
+            case stateEnum.waitToke:
+            count_down_count = 525;
+            state = stateEnum.countDown;
+    
+            // state = stateEnum.toke;
+            // aim_assist = false;
+            break;
+            case stateEnum.toke:
+            toke_number = -toke_bonus;
+            break;
+            default:
+            state = stateEnum.waitSpin;
+        }
+        inputFlag = false;
     }
 }
 
